@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赵旭 — AI 开发者</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0b; --surface: #141416; --surface2: #1c1c1f;
+            --border: #2a2a2e; --text: #fafafa; --muted: #71717a;
+            --accent: #6366f1; --accent2: #818cf8; --green: #22c55e;
+            --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.7;
+        }
+        a { color: var(--accent2); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(10,10,11,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 24px;
+        }
+        nav .inner {
+            max-width: 1100px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; height: 56px;
+        }
+        nav .logo { font-weight: 700; font-size: 16px; }
+        nav .links { display: flex; gap: 24px; }
+        nav .links a { color: var(--muted); font-size: 14px; font-weight: 500; }
+        nav .links a:hover { color: var(--text); text-decoration: none; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            justify-content: center; text-align: center; padding: 80px 24px;
+        }
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 72px); font-weight: 700;
+            background: var(--gradient); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; line-height: 1.1;
+        }
+        .hero .subtitle {
+            font-size: 18px; color: var(--muted); margin-top: 16px;
+            max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .hero .tags {
+            display: flex; gap: 8px; justify-content: center;
+            margin-top: 24px; flex-wrap: wrap;
+        }
+        .hero .tag {
+            background: var(--surface2); border: 1px solid var(--border);
+            padding: 6px 14px; border-radius: 20px; font-size: 13px; color: var(--muted);
+        }
+        .hero .cta {
+            margin-top: 32px; display: flex; gap: 12px; justify-content: center;
+        }
+        .btn {
+            padding: 10px 24px; border-radius: 8px; font-size: 14px;
+            font-weight: 600; cursor: pointer; border: none;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent2); text-decoration: none; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--accent); text-decoration: none; }
+
+        /* Sections */
+        section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+        section h2 {
+            font-size: 28px; font-weight: 700; margin-bottom: 40px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        section h2::before {
+            content: ''; width: 4px; height: 28px;
+            background: var(--gradient); border-radius: 2px;
+        }
+
+        /* About */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .about-text p { margin-bottom: 16px; color: var(--muted); font-size: 15px; }
+        .about-text p strong { color: var(--text); }
+        .info-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px;
+        }
+        .info-card .item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .info-card .item:last-child { border-bottom: none; }
+        .info-card .label { color: var(--muted); font-size: 13px; }
+        .info-card .value { font-weight: 500; font-size: 14px; }
+
+        /* Skills */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .skill-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; transition: all 0.2s;
+        }
+        .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .skill-card h3 { font-size: 15px; margin-bottom: 12px; }
+        .skill-card .items { display: flex; flex-wrap: wrap; gap: 6px; }
+        .skill-card .items span {
+            background: var(--surface2); padding: 4px 10px;
+            border-radius: 6px; font-size: 12px; color: var(--muted);
+        }
+
+        /* Projects */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+        .project-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; transition: all 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .project-card .header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .project-card h3 { font-size: 16px; }
+        .project-card .links { display: flex; gap: 8px; }
+        .project-card .links a {
+            font-size: 12px; padding: 4px 10px; border-radius: 6px;
+            background: var(--surface2); border: 1px solid var(--border);
+        }
+        .project-card .desc { color: var(--muted); font-size: 13px; margin: 12px 0; flex: 1; }
+        .project-card .tech { display: flex; flex-wrap: wrap; gap: 6px; }
+        .project-card .tech span {
+            background: rgba(99,102,241,0.1); color: var(--accent2);
+            padding: 3px 8px; border-radius: 4px; font-size: 11px;
+        }
+
+        /* Experience */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 6px; top: 0;
+            bottom: 0; width: 2px; background: var(--border);
+        }
+        .timeline-item { margin-bottom: 32px; position: relative; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -30px; top: 6px;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--accent); border: 2px solid var(--bg);
+        }
+        .timeline-item h3 { font-size: 16px; }
+        .timeline-item .meta { color: var(--muted); font-size: 13px; margin: 4px 0; }
+        .timeline-item ul { list-style: none; margin-top: 8px; }
+        .timeline-item li { color: var(--muted); font-size: 14px; padding: 3px 0; }
+        .timeline-item li::before { content: '→ '; color: var(--accent); }
+
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .contact-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; text-align: center;
+            transition: all 0.2s;
+        }
+        .contact-card:hover { border-color: var(--accent); }
+        .contact-card .icon { font-size: 24px; margin-bottom: 8px; }
+        .contact-card .label { font-size: 12px; color: var(--muted); }
+        .contact-card .value { font-size: 14px; margin-top: 4px; }
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 40px 24px;
+            border-top: 1px solid var(--border); color: var(--muted); font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            nav .links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="inner">
+            <div class="logo">赵旭</div>
+            <div class="links">
+                <a href="#about">关于</a>
+                <a href="#skills">技能</a>
+                <a href="#projects">项目</a>
+                <a href="#experience">经历</a>
+                <a href="#contact">联系</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div>
+            <h1>赵旭</h1>
+            <p class="subtitle">AI 开发者 · 独立开发者 · 热爱用代码构建 AI 应用</p>
+            <div class="tags">
+                <span class="tag">🤖 AI 应用开发</span>
+                <span class="tag">💻 Vibe Coding</span>
+                <span class="tag">🔧 工具链构建</span>
+                <span class="tag">📊 Prompt Engineering</span>
+            </div>
+            <div class="cta">
+                <a href="#projects" class="btn btn-primary">查看项目</a>
+                <a href="https://github.com/z15346183030" class="btn btn-outline" target="_blank">GitHub →</a>
+            </div>
+        </div>
+    </div>
+
+    <section id="about">
+        <h2>关于我</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>我是赵旭，青岛大学纺织科学与工程专业 2027 届本科生，一个<strong>深度的 AI 编程实践者</strong>。</p>
+                <p>每天用 Cursor 和 Claude 写代码，从独立开发 AI 应用到搭建开发者工具链，在实践中不断校准自己对"好的 AI 输出"的判断标准。</p>
+                <p>我享受<strong>造轮子的过程</strong>——不是为了重复发明，而是为了真正理解每一个零件为什么这样设计。</p>
+                <p>理工科的训练让我习惯用工程化的方式思考问题：模块化、可测试、可复用。对代码美感有追求，知道什么时候该"讲究"、什么时候可以"将就"。</p>
+            </div>
+            <div class="info-card">
+                <div class="item">
+                    <span class="label">学校</span>
+                    <span class="value">青岛大学</span>
+                </div>
+                <div class="item">
+                    <span class="label">专业</span>
+                    <span class="value">纺织科学与工程</span>
+                </div>
+                <div class="item">
+                    <span class="label">年级</span>
+                    <span class="value">2027 届本科</span>
+                </div>
+                <div class="item">
+                    <span class="label">计划</span>
+                    <span class="value">卓越工程师计划</span>
+                </div>
+                <div class="item">
+                    <span class="label">排名</span>
+                    <span class="value">专业前 30%</span>
+                </div>
+                <div class="item">
+                    <span class="label">GitHub</span>
+                    <span class="value"><a href="https://github.com/z15346183030" target="_blank">z15346183030</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>技能栈</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>🤖 AI 编程与开发</h3>
+                <div class="items">
+                    <span>Cursor</span><span>Claude Code</span><span>React/Next.js</span>
+                    <span>Python</span><span>FastAPI</span><span>Git</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🧠 大模型应用</h3>
+                <div class="items">
+                    <span>Prompt Engineering</span><span>模型评估</span><span>Coze</span>
+                    <span>Dify</span><span>Claude</span><span>ChatGPT</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>📊 数据分析</h3>
+                <div class="items">
+                    <span>Excel</span><span>Tableau</span><span>Power BI</span>
+                    <span>SQL</span><span>A/B 测试</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>📐 工程素养</h3>
+                <div class="items">
+                    <span>模块化设计</span><span>代码规范</span><span>敏捷开发</span>
+                    <span>跨团队协作</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>项目作品</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="header">
+                    <h3>🧪 AI Code Bench</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/ai-code-bench" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">AI 模型编程能力评估工具。标准化题库、多模型对比、自动评分（正确性+代码质量）、Markdown 报告生成。</p>
+                <div class="tech">
+                    <span>Python</span><span>OpenAI API</span><span>Rich</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🔍 AI Code Reviewer</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/ai-code-reviewer" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">基于 AI 的代码审查 CLI 工具。多维度分析（安全/性能/风格），按严重程度分级输出结构化审查报告。</p>
+                <div class="tech">
+                    <span>Python</span><span>OpenAI API</span><span>Rich</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🤖 AI Commit Generator</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/ai-commit-gen" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">分析 git diff 自动生成 Conventional Commits 规范的 commit message，支持交互和自动模式。</p>
+                <div class="tech">
+                    <span>Python</span><span>Git</span><span>OpenAI API</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🔄 AI Code Translator</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/ai-code-translator" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">多语言代码翻译工具，支持 Python/JS/TS/Java/Go/Rust 互译，保持代码风格和注释。</p>
+                <div class="tech">
+                    <span>Python</span><span>OpenAI API</span><span>多语言</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🧪 Prompt Playground</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/prompt-playground" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">纯前端的 Prompt 测试工作台。支持多模型对比、历史记录回溯，暗色终端风格 UI。</p>
+                <div class="tech">
+                    <span>HTML/CSS/JS</span><span>OpenAI API</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🎓 高考择校助手</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/gaokao-helper" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">AI 驱动的全栈 Web 应用。FastAPI 后端 + 大模型集成，提供大学搜索、校园生活分析、AI 智能问答。</p>
+                <div class="tech">
+                    <span>FastAPI</span><span>SQLite</span><span>大模型 API</span><span>HTML/CSS</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="header">
+                    <h3>🛠️ 极简工具箱</h3>
+                    <div class="links">
+                        <a href="https://github.com/z15346183030/quick-tools" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <p class="desc">纯前端在线工具站，包含 JSON 格式化、正则测试、Markdown 预览、颜色转换等 8 个实用工具。</p>
+                <div class="tech">
+                    <span>HTML/CSS/JS</span><span>纯前端</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>实践经历</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>FILA 校园推广大使</h3>
+                <div class="meta">2024.09 - 至今</div>
+                <ul>
+                    <li>通过问卷调研与访谈收集 Z 世代用户反馈，建立需求画像</li>
+                    <li>分析用户行为数据，提炼核心痛点，形成可落地的优化建议</li>
+                    <li>与品牌市场部、产品团队对接，推动洞察转化为行动</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>念本纯酸奶 · 校园品牌代理</h3>
+                <div class="meta">2024.03 - 2025.03</div>
+                <ul>
+                    <li>从 0 到 1 搭建覆盖 5 个院系的销售网络，用户增长 200+</li>
+                    <li>运用 Excel 分析销售数据，优化 SKU 组合，单月销售额提升 40%</li>
+                    <li>设计场景化营销方案，通过朋友圈海报+短视频内容引流</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>创客嘉年华 · 核心组织者</h3>
+                <div class="meta">2024.05</div>
+                <ul>
+                    <li>统筹 10 余场百人规模活动，建立标准化 SOP 与执行流程</li>
+                    <li>联动校团委、6 个学院学生会及外部赞助商，协调 50+ 人志愿者团队</li>
+                    <li>主导活动海报设计与视频制作，全渠道触达 5000+ 人次</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="honors">
+        <h2>荣誉奖项</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>🏆 竞赛获奖</h3>
+                <div class="items">
+                    <span>大学生商业挑战赛山东省三等奖</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🔬 科创项目</h3>
+                <div class="items">
+                    <span>大学生创新创业训练项目省级立项</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>📚 学业奖学金</h3>
+                <div class="items">
+                    <span>连续四学期校二等奖学金</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>联系方式</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="icon">📱</div>
+                <div class="label">电话</div>
+                <div class="value">15346183030</div>
+            </div>
+            <div class="contact-card">
+                <div class="icon">📧</div>
+                <div class="label">邮箱</div>
+                <div class="value">2210914541@qq.com</div>
+            </div>
+            <div class="contact-card">
+                <div class="icon">🔗</div>
+                <div class="label">GitHub</div>
+                <div class="value"><a href="https://github.com/z15346183030" target="_blank">z15346183030</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="icon">📍</div>
+                <div class="label">所在地</div>
+                <div class="value">青岛</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 赵旭 · Built with ❤️ and AI</p>
+    </footer>
+</body>
+</html>
