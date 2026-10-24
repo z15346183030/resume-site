@@ -599,10 +599,10 @@ footer a:hover{color:var(--green)}
       <p>我正在找营销管培、AI 产品、解决方案方向的校招机会。如果你想找一个懂业务的 AI 产品人，或者一个懂 AI 的生意人，欢迎聊聊。</p>
       <div class="hero-actions">
         <div class="mailwrap">
-          <button class="btn" id="mailBtn" aria-haspopup="true" aria-expanded="false" aria-controls="mailMenu">
+          <a class="btn" id="mailBtn" href="mailto:2210914541@qq.com" aria-haspopup="true" aria-expanded="false" aria-controls="mailMenu">
             发邮件给我
             <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          </a>
           <div class="mailmenu" id="mailMenu" role="menu" aria-labelledby="mailBtn">
             <span class="menu-label">用哪个邮箱发给我</span>
             <a role="menuitem" target="_blank" rel="noopener" href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2210914541@qq.com">
@@ -631,7 +631,7 @@ footer a:hover{color:var(--green)}
     </section>
 
     <footer>
-      <span>赵旭 · 青岛大学 2027 届</span>
+      <span>赵旭 · 青岛大学 2027 届 · v2.1</span>
       <span>版式参考 Brittany Chiang 的 <a href="https://github.com/bchiang7/v4" target="_blank" rel="noopener">v4</a>（MIT）</span>
     </footer>
   </main>
@@ -713,6 +713,7 @@ footer a:hover{color:var(--green)}
     mailBtn.setAttribute('aria-expanded', String(open));
   }
   mailBtn.addEventListener('click', function(e){
+    e.preventDefault();
     e.stopPropagation();
     setMail(!mailMenu.classList.contains('open'));
   });
