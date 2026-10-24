@@ -106,7 +106,7 @@ section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);m
 .mailmenu{
   position:absolute;bottom:calc(100% + 12px);left:50%;
   transform:translateX(-50%) translateY(8px);
-  min-width:216px;padding:7px;
+  min-width:258px;padding:7px;
   background:var(--light-navy);border:1px solid var(--lightest-navy);border-radius:8px;
   box-shadow:var(--shadow);z-index:60;text-align:left;
   opacity:0;visibility:hidden;pointer-events:none;
@@ -137,6 +137,24 @@ section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);m
   text-align:left;transition:color .18s var(--ease);
 }
 .copy-mail:hover{color:var(--green)}
+.mailmenu a.primary{color:var(--green)}
+.mailmenu a.primary .dot{background:var(--green);opacity:1}
+.tag{
+  margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  color:var(--navy);background:var(--green);border-radius:3px;padding:2px 6px;
+}
+.menu-label.sub{border-bottom:0;margin:4px 0 0;padding:9px 12px 4px;opacity:.8}
+.menu-sep{display:block;border-top:1px solid var(--lightest-navy);margin:6px 6px 0}
+.mailtoast{
+  position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(12px);
+  background:var(--light-navy);border:1px solid var(--green);color:var(--green);
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;line-height:1.5;
+  padding:10px 18px;border-radius:6px;box-shadow:var(--shadow);
+  max-width:88vw;text-align:center;
+  opacity:0;pointer-events:none;z-index:200;
+  transition:opacity .22s var(--ease),transform .22s var(--ease);
+}
+.mailtoast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ---------- about ---------- */
 .about p{margin:0 0 16px;max-width:620px}
@@ -604,24 +622,26 @@ footer a:hover{color:var(--green)}
             <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <div class="mailmenu" id="mailMenu" role="menu" aria-labelledby="mailBtn">
-            <span class="menu-label">用哪个邮箱发给我</span>
-            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2210914541@qq.com">
+            <span class="menu-label">发给 2210914541@qq.com</span>
+            <a role="menuitem" class="primary" id="mailDirect" href="mailto:2210914541@qq.com">
+              <span class="dot"></span>直接写邮件<span class="tag">收件人已填</span>
+            </a>
+            <a role="menuitem" id="mailGmail" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1">
+              <span class="dot"></span>Gmail 写信
+            </a>
+            <a role="menuitem" id="mailOutlook" target="_blank" rel="noopener" href="https://outlook.live.com/mail/0/deeplink/compose">
+              <span class="dot"></span>Outlook 写信
+            </a>
+            <span class="menu-sep"></span>
+            <span class="menu-label sub">或用网页版邮箱 · 点开会自动复制地址</span>
+            <a role="menuitem" class="webmail" target="_blank" rel="noopener" href="https://mail.qq.com/">
               <span class="dot"></span>QQ 邮箱
             </a>
-            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.163.com/js6/main.jsp?df=mail163_letter#module=compose.ComposeModule%7C%7C%7C%7B%22id%22%3A%22new%22%2C%22action%22%3A%22new%22%2C%22to%22%3A%222210914541%40qq.com%22%7D">
-              <span class="dot"></span>网易 163 邮箱
+            <a role="menuitem" class="webmail" target="_blank" rel="noopener" href="https://mail.163.com/">
+              <span class="dot"></span>网易 163
             </a>
-            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.126.com/js6/main.jsp?df=mail163_letter#module=compose.ComposeModule%7C%7C%7C%7B%22id%22%3A%22new%22%2C%22action%22%3A%22new%22%2C%22to%22%3A%222210914541%40qq.com%22%7D">
-              <span class="dot"></span>网易 126 邮箱
-            </a>
-            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=2210914541@qq.com">
-              <span class="dot"></span>Gmail
-            </a>
-            <a role="menuitem" target="_blank" rel="noopener" href="https://outlook.live.com/mail/0/deeplink/compose?to=2210914541@qq.com">
-              <span class="dot"></span>Outlook
-            </a>
-            <a role="menuitem" href="mailto:2210914541@qq.com">
-              <span class="dot"></span>系统默认邮箱
+            <a role="menuitem" class="webmail" target="_blank" rel="noopener" href="https://mail.126.com/">
+              <span class="dot"></span>网易 126
             </a>
             <button type="button" class="copy-mail" id="copyMail" data-mail="2210914541@qq.com">复制邮箱地址</button>
           </div>
@@ -631,7 +651,7 @@ footer a:hover{color:var(--green)}
     </section>
 
     <footer>
-      <span>赵旭 · 青岛大学 2027 届 · v2.1</span>
+      <span>赵旭 · 青岛大学 2027 届 · v2.2</span>
       <span>版式参考 Brittany Chiang 的 <a href="https://github.com/bchiang7/v4" target="_blank" rel="noopener">v4</a>（MIT）</span>
     </footer>
   </main>
@@ -705,9 +725,42 @@ footer a:hover{color:var(--green)}
   drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
 
   // 发邮件菜单
+  var MAIL = '2210914541@qq.com';
+  var SUBJECT = '来自个人网站的邮件';
+  var BODY = '你好赵旭：\n\n我在你的个人网站上看到你的资料，想和你聊聊。\n\n';
+  var enc = encodeURIComponent;
+
   var mailBtn = document.getElementById('mailBtn');
   var mailMenu = document.getElementById('mailMenu');
   var copyBtn = document.getElementById('copyMail');
+
+  var toastEl = document.createElement('div');
+  toastEl.className = 'mailtoast';
+  toastEl.setAttribute('role', 'status');
+  toastEl.setAttribute('aria-live', 'polite');
+  document.body.appendChild(toastEl);
+  var toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 3400);
+  }
+
+  function copyText(text, ok){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(err) { toast(text); }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else fallback();
+  }
+
   function setMail(open){
     mailMenu.classList.toggle('open', open);
     mailBtn.setAttribute('aria-expanded', String(open));
@@ -724,19 +777,31 @@ footer a:hover{color:var(--green)}
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && mailMenu.classList.contains('open')) { setMail(false); mailBtn.focus(); }
   });
+
+  // 能带收件人直接打开写信页的只有这三种链接形式，主题正文一并预填
+  var direct = document.getElementById('mailDirect');
+  if (direct) {
+    direct.href = 'mailto:' + MAIL + '?subject=' + enc(SUBJECT) + '&body=' + enc(BODY);
+    direct.addEventListener('click', function(){ setMail(false); });
+  }
+  var gmail = document.getElementById('mailGmail');
+  if (gmail) gmail.href = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + enc(MAIL) + '&su=' + enc(SUBJECT) + '&body=' + enc(BODY);
+  var outlook = document.getElementById('mailOutlook');
+  if (outlook) outlook.href = 'https://outlook.live.com/mail/deeplink/compose?to=' + enc(MAIL) + '&subject=' + enc(SUBJECT) + '&body=' + enc(BODY);
+
+  // QQ / 163 / 126 网页版没有带收件人的直达写信链接（官方旧接口已废弃），点开即复制地址
+  Array.prototype.forEach.call(mailMenu.querySelectorAll('a.webmail'), function(a){
+    a.addEventListener('click', function(){
+      copyText(MAIL, function(){ toast('已复制 ' + MAIL + '，登录后粘贴到收件人即可'); });
+    });
+  });
+
   if (copyBtn) {
     copyBtn.addEventListener('click', function(){
-      var text = copyBtn.getAttribute('data-mail');
-      var done = function(){ copyBtn.textContent = '已复制 ' + text; };
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(done, function(){});
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); done(); } catch(err) {}
-        document.body.removeChild(ta);
-      }
+      copyText(copyBtn.getAttribute('data-mail'), function(){
+        copyBtn.textContent = '已复制 ' + MAIL;
+        toast('已复制 ' + MAIL);
+      });
     });
   }
 })();
