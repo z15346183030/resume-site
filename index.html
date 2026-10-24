@@ -1,658 +1,643 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赵旭 — AI 开发者</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #0a0a0b; --surface: #141416; --surface2: #1c1c1f;
-            --border: #2a2a2e; --text: #fafafa; --muted: #71717a;
-            --accent: #6366f1; --accent2: #818cf8; --green: #22c55e;
-            --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
-            background: var(--bg); color: var(--text); line-height: 1.7;
-        }
-        a { color: var(--accent2); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>赵旭 — 营销 × AI 产品</title>
+<meta name="description" content="赵旭，青岛大学纺织科学与工程 2027 届。海信集团国内营销 AI 实习生，独立开发 AI 产品。">
+<meta name="theme-color" content="#0a192f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a192f'/><text x='50' y='50' font-size='52' font-family='system-ui' fill='%2364ffda' text-anchor='middle' dominant-baseline='central'>赵</text></svg>">
+<style>
+:root{
+  --navy:#0a192f; --light-navy:#112240; --lightest-navy:#233554;
+  --slate:#8892b0; --light-slate:#a8b2d1; --lightest-slate:#ccd6f6; --white:#e6f1ff;
+  --green:#64ffda; --green-dim:rgba(100,255,218,.12);
+  --mono:"SF Mono","JetBrains Mono","Fira Code","Roboto Mono",Consolas,monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --shadow:0 10px 30px -15px rgba(2,12,27,.7);
+  --ease:cubic-bezier(.645,.045,.355,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:40px}
+body{
+  margin:0;background:var(--navy);color:var(--slate);
+  font-family:var(--sans);font-size:16px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--green-dim);color:var(--green)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--lightest-navy);border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:var(--slate)}
 
-        /* Nav */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            background: rgba(10,10,11,0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 0 24px;
-        }
-        nav .inner {
-            max-width: 1100px; margin: 0 auto; display: flex;
-            justify-content: space-between; align-items: center; height: 56px;
-        }
-        nav .logo { font-weight: 700; font-size: 16px; }
-        nav .links { display: flex; gap: 24px; }
-        nav .links a { color: var(--muted); font-size: 14px; font-weight: 500; }
-        nav .links a:hover { color: var(--text); text-decoration: none; }
+/* ---------- progress ---------- */
+#bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--green);z-index:100;transition:width .1s linear}
 
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center;
-            justify-content: center; text-align: center; padding: 80px 24px;
-        }
-        .hero h1 {
-            font-size: clamp(40px, 8vw, 72px); font-weight: 700;
-            background: var(--gradient); -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; line-height: 1.1;
-        }
-        .hero .subtitle {
-            font-size: 18px; color: var(--muted); margin-top: 16px;
-            max-width: 600px; margin-left: auto; margin-right: auto;
-        }
-        .hero .tags {
-            display: flex; gap: 8px; justify-content: center;
-            margin-top: 24px; flex-wrap: wrap;
-        }
-        .hero .tag {
-            background: var(--surface2); border: 1px solid var(--border);
-            padding: 6px 14px; border-radius: 20px; font-size: 13px; color: var(--muted);
-        }
-        .hero .cta {
-            margin-top: 32px; display: flex; gap: 12px; justify-content: center;
-        }
-        .btn {
-            padding: 10px 24px; border-radius: 8px; font-size: 14px;
-            font-weight: 600; cursor: pointer; border: none;
-            font-family: inherit; transition: all 0.2s;
-        }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: var(--accent2); text-decoration: none; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--accent); text-decoration: none; }
+/* ---------- layout ---------- */
+.layout{display:flex;gap:0;max-width:1400px;margin:0 auto;padding:0 48px;min-height:100vh}
 
-        /* Sections */
-        section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
-        section h2 {
-            font-size: 28px; font-weight: 700; margin-bottom: 40px;
-            display: flex; align-items: center; gap: 12px;
-        }
-        section h2::before {
-            content: ''; width: 4px; height: 28px;
-            background: var(--gradient); border-radius: 2px;
-        }
+/* ---------- sidebar ---------- */
+.sidebar{
+  width:44%;flex-shrink:0;padding:110px 60px 60px 0;
+}
+.sidebar-inner{position:sticky;top:110px}
+.sidebar h1{
+  font-size:clamp(38px,4.4vw,52px);font-weight:700;letter-spacing:.02em;
+  color:var(--lightest-slate);margin:0 0 10px;line-height:1.15;
+}
+.sidebar .role{
+  font-size:clamp(18px,2vw,22px);font-weight:600;color:var(--lightest-slate);margin:0 0 4px;
+}
+.sidebar .role em{font-style:normal;color:var(--green)}
+.sidebar .tagline{margin:14px 0 0;max-width:340px;font-size:15px;line-height:1.7;color:var(--slate)}
+.nav{list-style:none;padding:0;margin:58px 0 0;display:flex;flex-direction:column;gap:6px}
+.nav a{
+  display:flex;align-items:center;gap:12px;width:max-content;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);padding:8px 0;transition:color .25s var(--ease);
+}
+.nav a .no{color:var(--green);font-size:11px;opacity:.85}
+.nav a .line{width:0;height:1px;background:var(--green);transition:width .25s var(--ease)}
+.nav a:hover{color:var(--lightest-slate)}
+.nav a:hover .line{width:36px}
+.sidebar-foot{margin-top:60px;display:flex;gap:20px;align-items:center}
+.sidebar-foot a{color:var(--slate);transition:color .2s,transform .2s}
+.sidebar-foot a:hover{color:var(--green);transform:translateY(-2px)}
+.sidebar-foot svg{width:19px;height:19px;fill:currentColor}
+.sidebar-foot svg.outline{fill:none;stroke:currentColor;stroke-width:1.8}
 
-        /* About */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .about-text p { margin-bottom: 16px; color: var(--muted); font-size: 15px; }
-        .about-text p strong { color: var(--text); }
-        .info-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 24px;
-        }
-        .info-card .item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
-        .info-card .item:last-child { border-bottom: none; }
-        .info-card .label { color: var(--muted); font-size: 13px; }
-        .info-card .value { font-weight: 500; font-size: 14px; }
+/* ---------- main ---------- */
+main{width:56%;padding:110px 0 120px}
+section{scroll-margin-top:40px;margin-bottom:110px}
+section h2{
+  display:flex;align-items:center;gap:16px;
+  font-size:clamp(22px,2.6vw,28px);font-weight:700;color:var(--lightest-slate);
+  margin:0 0 34px;letter-spacing:.01em;white-space:nowrap;
+}
+section h2 .no{font-family:var(--mono);font-size:16px;font-weight:400;color:var(--green)}
+section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);margin-left:4px}
 
-        /* Skills */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-        .skill-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 20px; transition: all 0.2s;
-        }
-        .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .skill-card h3 { font-size: 15px; margin-bottom: 12px; }
-        .skill-card .items { display: flex; flex-wrap: wrap; gap: 6px; }
-        .skill-card .items span {
-            background: var(--surface2); padding: 4px 10px;
-            border-radius: 6px; font-size: 12px; color: var(--muted);
-        }
+/* ---------- hero ---------- */
+#hero{padding-top:0}
+#hero .hi{font-family:var(--mono);color:var(--green);font-size:15px;margin:0 0 16px;letter-spacing:.04em}
+#hero h1{font-size:clamp(40px,5.4vw,64px);line-height:1.12;color:var(--lightest-slate);margin:0 0 12px;font-weight:700}
+#hero h1 span{color:var(--slate)}
+#hero p.lede{max-width:560px;font-size:17px;color:var(--slate);margin:22px 0 0}
+#hero p.lede strong{color:var(--light-slate);font-weight:600}
+.hero-actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
 
-        /* Projects */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
-        .project-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 24px; transition: all 0.2s;
-            display: flex; flex-direction: column;
-        }
-        .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .project-card .header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .project-card h3 { font-size: 16px; }
-        .project-card .links { display: flex; gap: 8px; }
-        .project-card .links a {
-            font-size: 12px; padding: 4px 10px; border-radius: 6px;
-            background: var(--surface2); border: 1px solid var(--border);
-        }
-        .project-card .desc { color: var(--muted); font-size: 13px; margin: 12px 0; flex: 1; }
-        .project-card .tech { display: flex; flex-wrap: wrap; gap: 6px; }
-        .project-card .tech span {
-            background: rgba(99,102,241,0.1); color: var(--accent2);
-            padding: 3px 8px; border-radius: 4px; font-size: 11px;
-        }
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.04em;
+  color:var(--green);border:1px solid var(--green);border-radius:4px;
+  padding:13px 22px;background:transparent;cursor:pointer;
+  transition:background .25s var(--ease),transform .25s var(--ease);
+}
+.btn:hover{background:var(--green-dim);transform:translateY(-2px)}
+.btn.ghost{color:var(--light-slate);border-color:var(--lightest-navy)}
+.btn.ghost:hover{color:var(--green);border-color:var(--green);background:var(--green-dim)}
 
-        /* Experience */
-        .timeline { position: relative; padding-left: 32px; }
-        .timeline::before {
-            content: ''; position: absolute; left: 6px; top: 0;
-            bottom: 0; width: 2px; background: var(--border);
-        }
-        .timeline-item { margin-bottom: 32px; position: relative; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -30px; top: 6px;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: var(--accent); border: 2px solid var(--bg);
-        }
-        .timeline-item h3 { font-size: 16px; }
-        .timeline-item .meta { color: var(--muted); font-size: 13px; margin: 4px 0; }
-        .timeline-item ul { list-style: none; margin-top: 8px; }
-        .timeline-item li { color: var(--muted); font-size: 14px; padding: 3px 0; }
-        .timeline-item li::before { content: '→ '; color: var(--accent); }
+/* ---------- about ---------- */
+.about p{margin:0 0 16px;max-width:620px}
+.about p strong{color:var(--light-slate);font-weight:600}
+.edu{
+  margin-top:32px;padding:22px 26px;border-radius:6px;
+  background:var(--light-navy);border-left:2px solid var(--green);
+}
+.edu .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.edu .school{color:var(--lightest-slate);font-weight:700;font-size:17px}
+.edu .date{font-family:var(--mono);font-size:12px;color:var(--slate)}
+.edu .major{color:var(--light-slate);font-size:14px;margin-top:2px}
+.edu ul{list-style:none;padding:0;margin:12px 0 0;font-size:14px;color:var(--slate)}
+.edu li{position:relative;padding-left:18px;margin-bottom:4px}
+.edu li::before{content:"▹";position:absolute;left:0;color:var(--green);font-size:12px;top:2px}
 
-        /* Contact */
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-        .contact-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 20px; text-align: center;
-            transition: all 0.2s;
-        }
-        .contact-card:hover { border-color: var(--accent); }
-        .contact-card .icon { font-size: 24px; margin-bottom: 8px; }
-        .contact-card .label { font-size: 12px; color: var(--muted); }
-        .contact-card .value { font-size: 14px; margin-top: 4px; }
+/* ---------- experience tabs ---------- */
+.exp{display:flex;gap:0;min-height:340px}
+.tabs{
+  display:flex;flex-direction:column;flex-shrink:0;width:170px;
+  border-left:2px solid var(--lightest-navy);
+}
+.tab{
+  text-align:left;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:13px;color:var(--slate);
+  padding:10px 16px;margin-left:-2px;border-left:2px solid transparent;
+  transition:all .2s var(--ease);line-height:1.5;
+}
+.tab:hover{background:var(--light-navy);color:var(--green)}
+.tab[aria-selected="true"]{color:var(--green);border-left-color:var(--green);background:var(--light-navy)}
+.panes{flex:1;padding-left:34px;min-width:0}
+.pane{display:none;animation:fade .35s var(--ease)}
+.pane.active{display:block}
+.pane h3{margin:0;font-size:19px;color:var(--lightest-slate);font-weight:600;line-height:1.4}
+.pane h3 em{font-style:normal;color:var(--light-slate)}
+.pane .date{font-family:var(--mono);font-size:12px;color:var(--slate);margin:6px 0 22px}
+.pane ul{list-style:none;padding:0;margin:0;font-size:15px}
+.pane li{position:relative;padding-left:26px;margin-bottom:14px;color:var(--slate)}
+.pane li::before{content:"▹";position:absolute;left:0;top:0;color:var(--green)}
+.pane li b{color:var(--light-slate);font-weight:600}
+.tech{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:24px 0 0}
+.tech li{
+  font-family:var(--mono);font-size:11.5px;color:var(--green);
+  background:var(--green-dim);border-radius:20px;padding:4px 12px;
+}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-        /* Footer */
-        footer {
-            text-align: center; padding: 40px 24px;
-            border-top: 1px solid var(--border); color: var(--muted); font-size: 13px;
-        }
+/* ---------- projects ---------- */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{
+  display:flex;flex-direction:column;position:relative;
+  background:var(--light-navy);border-radius:6px;padding:26px 24px;
+  min-height:250px;transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card .ico{color:var(--green);width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:1.6}
+.card .out{color:var(--slate);transition:color .2s}
+.card:hover .out{color:var(--green)}
+.card .out svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.card h3{font-size:17px;margin:0 0 4px;color:var(--lightest-slate);font-weight:600}
+.card .meta{font-family:var(--mono);font-size:11px;color:var(--slate);margin-bottom:12px;letter-spacing:.04em}
+.card p{margin:0;font-size:14px;flex:1;color:var(--slate)}
+.card .tech{margin-top:18px}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; }
-            nav .links { display: none; }
-        }
+/* ---------- skills ---------- */
+.skillgroup{margin-bottom:30px}
+.skillgroup h3{
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--lightest-slate);margin:0 0 12px;font-weight:500;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{
+  font-size:13px;color:var(--light-slate);border:1px solid var(--lightest-navy);
+  border-radius:4px;padding:5px 12px;transition:all .2s var(--ease);cursor:default;
+}
+.chips span:hover{border-color:var(--green);color:var(--green);background:var(--green-dim);transform:translateY(-2px)}
 
-        /* Modal */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 200;
-            justify-content: center; align-items: center; padding: 24px;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-            max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 32px;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute; top: 16px; right: 16px; background: var(--surface2);
-            border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px;
-            border-radius: 8px; cursor: pointer; font-size: 18px; display: flex;
-            align-items: center; justify-content: center;
-        }
-        .modal-close:hover { color: var(--text); border-color: var(--accent); }
-        .modal h2 { font-size: 22px; margin-bottom: 8px; }
-        .modal .modal-links { display: flex; gap: 8px; margin-bottom: 20px; }
-        .modal .modal-links a {
-            padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600;
-            background: var(--accent); color: white;
-        }
-        .modal .modal-links a:hover { text-decoration: none; opacity: 0.9; }
-        .modal .modal-desc { color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
-        .modal h3 { font-size: 15px; margin: 20px 0 10px; color: var(--accent2); }
-        .modal ul { list-style: none; padding: 0; }
-        .modal ul li { color: var(--muted); font-size: 13px; padding: 4px 0; padding-left: 20px; position: relative; }
-        .modal ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
-        .modal .modal-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-        .modal .modal-tech span {
-            background: rgba(99,102,241,0.1); color: var(--accent2);
-            padding: 4px 10px; border-radius: 6px; font-size: 12px;
-        }
-    </style>
+/* ---------- contact ---------- */
+#contact{text-align:center;max-width:560px;margin-left:auto;margin-right:auto}
+#contact .kicker{font-family:var(--mono);color:var(--green);font-size:14px;margin:0 0 16px}
+#contact h2{justify-content:center;font-size:clamp(26px,3.4vw,36px);margin-bottom:20px}
+#contact h2::after{display:none}
+#contact p{margin:0 0 34px;font-size:16px}
+#contact .hero-actions{justify-content:center}
+
+/* ---------- footer ---------- */
+footer{
+  font-family:var(--mono);font-size:11.5px;color:var(--slate);
+  display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;
+  padding-bottom:40px;line-height:1.8;
+}
+footer a:hover{color:var(--green)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- mobile ---------- */
+.mobile-head{display:none}
+.drawer{display:none}
+@media(max-width:1023px){
+  .layout{flex-direction:column;padding:0 28px}
+  .sidebar{display:none}
+  main{width:100%;padding:0 0 80px}
+  .mobile-head{
+    display:flex;align-items:center;justify-content:space-between;
+    position:fixed;top:0;left:0;right:0;z-index:90;height:64px;padding:0 24px;
+    background:rgba(10,25,47,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--lightest-navy);
+  }
+  .mobile-head .brand{font-weight:700;color:var(--lightest-slate);letter-spacing:.04em}
+  .burger{background:none;border:0;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px}
+  .burger span{display:block;width:22px;height:2px;background:var(--green);transition:.3s var(--ease)}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .drawer{
+    position:fixed;inset:0;z-index:80;background:var(--light-navy);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;
+    opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
+  }
+  .drawer.open{opacity:1;pointer-events:auto}
+  .drawer a{
+    font-family:var(--mono);font-size:15px;letter-spacing:.1em;color:var(--lightest-slate);
+    display:flex;gap:12px;padding:14px;
+  }
+  .drawer a .no{color:var(--green);font-size:13px}
+  main{padding-top:120px}
+  section{margin-bottom:80px}
+  .exp{flex-direction:column;min-height:0}
+  .tabs{flex-direction:row;width:100%;overflow-x:auto;border-left:0;border-bottom:2px solid var(--lightest-navy);margin-bottom:26px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .tab{border-left:0;border-bottom:2px solid transparent;margin-left:0;margin-bottom:-2px;white-space:nowrap;padding:10px 14px}
+  .tab[aria-selected="true"]{border-bottom-color:var(--green);border-left:0;background:none}
+  .panes{padding-left:0}
+  .grid{grid-template-columns:1fr}
+  .card{min-height:0}
+}
+@media(max-width:520px){
+  .layout{padding:0 18px}
+  #hero h1{font-size:36px}
+  section h2{font-size:20px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  #bar,.mobile-head,.drawer,.sidebar,.hero-actions{display:none!important}
+  body{background:#fff;color:#222;font-size:11.5pt}
+  .layout{display:block;padding:0;max-width:none}
+  main{width:100%;padding:0}
+  section{margin-bottom:22px;page-break-inside:avoid}
+  .pane{display:block!important;page-break-inside:avoid}
+  .panes{padding-left:0}
+  .tabs{display:none}
+  .pane h3{font-size:12pt}
+  .pane .date{color:#666}
+  .pane li{color:#222;margin-bottom:6px}
+  .pane li::before{content:"·";color:#666}
+  section h2{color:#111;font-size:14pt;border-bottom:1px solid #ccc;padding-bottom:6px}
+  section h2::after{display:none}
+  section h2 .no{color:#666}
+  .card{background:#f7f7f7;border:1px solid #e5e5e5;box-shadow:none;min-height:0;page-break-inside:avoid}
+  .card h3{color:#111}.card p{color:#333}
+  .edu{background:#f7f7f7;border-left:2px solid #999}
+  .chips span{border-color:#ccc;color:#333}
+  .tech li{background:#eee;color:#333}
+  footer{color:#888;padding-bottom:0}
+  a{color:#111}
+  #contact .hero-actions{display:none}
+}
+</style>
 </head>
 <body>
-    <nav>
-        <div class="inner">
-            <div class="logo">赵旭</div>
-            <div class="links">
-                <a href="#about">关于</a>
-                <a href="#skills">技能</a>
-                <a href="#projects">项目</a>
-                <a href="#experience">经历</a>
-                <a href="#contact">联系</a>
-            </div>
-        </div>
-    </nav>
+<div id="bar"></div>
 
-    <div class="hero">
-        <div>
-            <h1>赵旭</h1>
-            <p class="subtitle">AI 开发者 · 独立开发者 · 热爱用代码构建 AI 应用</p>
-            <div class="tags">
-                <span class="tag">🤖 AI 应用开发</span>
-                <span class="tag">💻 Vibe Coding</span>
-                <span class="tag">🔧 工具链构建</span>
-                <span class="tag">📊 Prompt Engineering</span>
-            </div>
-            <div class="cta">
-                <a href="#projects" class="btn btn-primary">查看项目</a>
-                <a href="https://github.com/z15346183030" class="btn btn-outline" target="_blank">GitHub →</a>
-            </div>
-        </div>
+<header class="mobile-head">
+  <span class="brand">赵旭</span>
+  <button class="burger" id="burger" aria-label="菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav class="drawer" id="drawer" aria-label="移动端导航">
+  <a href="#about"><span class="no">01.</span>关于</a>
+  <a href="#experience"><span class="no">02.</span>经历</a>
+  <a href="#projects"><span class="no">03.</span>项目</a>
+  <a href="#skills"><span class="no">04.</span>技能</a>
+  <a href="#contact"><span class="no">05.</span>联系</a>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <h1>赵旭</h1>
+      <p class="role">营销 <em>×</em> AI 产品</p>
+      <p class="tagline">2027 届本科生 · 海信集团国内营销 AI 实习 · 用 vibe coding 独立做 AI 产品</p>
+
+      <ul class="nav">
+        <li><a href="#about"><span class="line"></span><span class="no">01.</span>关于</a></li>
+        <li><a href="#experience"><span class="line"></span><span class="no">02.</span>经历</a></li>
+        <li><a href="#projects"><span class="line"></span><span class="no">03.</span>项目</a></li>
+        <li><a href="#skills"><span class="line"></span><span class="no">04.</span>技能</a></li>
+        <li><a href="#contact"><span class="line"></span><span class="no">05.</span>联系</a></li>
+      </ul>
+
+      <div class="sidebar-foot">
+        <a href="https://github.com/z15346183030" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="mailto:2210914541@qq.com" aria-label="邮箱" title="2210914541@qq.com">
+          <svg class="outline" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6l9 7 9-7"/></svg>
+        </a>
+        <a href="tel:15346183030" aria-label="电话" title="153 4618 3030">
+          <svg class="outline" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
+        </a>
+      </div>
     </div>
+  </aside>
 
-    <section id="about">
-        <h2>关于我</h2>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>我是赵旭，青岛大学纺织科学与工程专业 2027 届本科生，一个<strong>深度的 AI 编程实践者</strong>。</p>
-                <p>每天用 Cursor 和 Claude 写代码，从独立开发 AI 应用到搭建开发者工具链，在实践中不断校准自己对"好的 AI 输出"的判断标准。</p>
-                <p>我享受<strong>造轮子的过程</strong>——不是为了重复发明，而是为了真正理解每一个零件为什么这样设计。</p>
-                <p>理工科的训练让我习惯用工程化的方式思考问题：模块化、可测试、可复用。对代码美感有追求，知道什么时候该"讲究"、什么时候可以"将就"。</p>
-            </div>
-            <div class="info-card">
-                <div class="item">
-                    <span class="label">学校</span>
-                    <span class="value">青岛大学</span>
-                </div>
-                <div class="item">
-                    <span class="label">专业</span>
-                    <span class="value">纺织科学与工程</span>
-                </div>
-                <div class="item">
-                    <span class="label">年级</span>
-                    <span class="value">2027 届本科</span>
-                </div>
-                <div class="item">
-                    <span class="label">排名</span>
-                    <span class="value">专业前 30%</span>
-                </div>
-                <div class="item">
-                    <span class="label">GitHub</span>
-                    <span class="value"><a href="https://github.com/z15346183030" target="_blank">z15346183030 · 3★</a></span>
-                </div>
-            </div>
-        </div>
+  <main>
+    <section id="hero" class="reveal">
+      <p class="hi">你好，我是</p>
+      <h1>赵旭<span>。</span></h1>
+      <p class="lede">
+        我在海信集团国内营销做 <strong>AI 业务落地</strong>，轮岗过大客户 BU、GTM 与供应链；
+        课余用 vibe coding 独立做了 <strong>10+ 个 AI 项目</strong>。
+        先把一个生意跑通，再用 AI 让它跑得更快 —— 这是我一贯的做法。
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#experience">看我的经历</a>
+        <a class="btn ghost" href="https://github.com/z15346183030" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
     </section>
 
-    <section id="skills">
-        <h2>技能栈</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>🤖 AI 编程与开发</h3>
-                <div class="items">
-                    <span>Cursor</span><span>Claude Code</span><span>React/Next.js</span>
-                    <span>Python</span><span>FastAPI</span><span>Git</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🧠 大模型应用</h3>
-                <div class="items">
-                    <span>Prompt Engineering</span><span>模型评估</span><span>Coze</span>
-                    <span>Dify</span><span>Claude</span><span>ChatGPT</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>📊 数据分析</h3>
-                <div class="items">
-                    <span>Excel</span><span>Tableau</span><span>Power BI</span>
-                    <span>SQL</span><span>A/B 测试</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>📐 工程素养</h3>
-                <div class="items">
-                    <span>模块化设计</span><span>代码规范</span><span>敏捷开发</span>
-                    <span>跨团队协作</span>
-                </div>
-            </div>
+    <section id="about" class="reveal">
+      <h2><span class="no">01.</span>关于</h2>
+      <div class="about">
+        <p>
+          我是青岛大学纺织科学与工程专业 2027 届本科生。专业看起来离互联网很远，
+          但纺织本质是<strong>商品工程</strong>——纤维、面料、成本、工艺、供应链全链路，
+          这让我习惯从「一个东西怎么造出来、怎么卖出去、怎么算得过来账」去看问题。
+        </p>
+        <p>
+          我的经历分成两条线。商业线上，我从 0 搭起 500 人的校园推广网络，年流水 50 万+；
+          做过念本纯酸奶的校园分销，单月销售额提升 40%；现在在海信国内营销，
+          跟着胶东机场、青岛地铁这类总额超千万元的大客户项目走完从需求对接到验收交付的全流程。
+          AI 线上，我把「评测 → 归因 → 优化」这套方法用在代码质量评估上，
+          也用它去判断内容能不能被 AI 搜索引擎引用。
+        </p>
+        <p>
+          我关心的不是 AI 能做什么，而是它能替谁的<strong>哪一步</strong>省掉时间。
+        </p>
+
+        <div class="edu">
+          <div class="row">
+            <span class="school">青岛大学</span>
+            <span class="date">2023.09 — 2027.06</span>
+          </div>
+          <div class="major">纺织科学与工程 · 本科 · GPA 3.55/4.0 · 专业排名前 20%</div>
+          <ul>
+            <li>连续三年校级二等奖学金 · 山东省励志奖学金</li>
+            <li>山东省商业挑战赛三等奖（市场分析 + 营销方案设计）</li>
+            <li>省级大学生创新创业训练计划项目负责人</li>
+          </ul>
         </div>
+      </div>
     </section>
 
-    <section id="projects">
-        <h2>项目作品</h2>
-        <div class="projects-grid">
-
-            <!-- 第一梯队：深度 AI 工程项目 -->
-            <div class="project-card">
-                <div class="header">
-                    <h3>🎭 Multi-Agent Code Studio</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/multi-agent-code-studio" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">多 Agent 协作代码生成系统。Writer 生成代码、Reviewer 多维审查、Tester 生成测试、Refiner 迭代优化，反馈循环驱动质量提升。</p>
-                <div class="tech"><span>Python</span><span>多 Agent 架构</span><span>OpenAI API</span><span>Rich</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="header">
-                    <h3>⚖️ LLM-as-a-Judge</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/llm-as-judge" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">用 LLM 当评委评估代码质量。多评委独立打分、5 维度评估、ICC 一致性检验、评分校准。探索 AI 评估 AI 的前沿方法论。</p>
-                <div class="tech"><span>Python</span><span>NumPy</span><span>统计分析</span><span>OpenAI API</span></div>
-            </div>
-
-            <div class="project-card">
-                <div class="header">
-                    <h3>📊 Code Eval Platform</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/code-eval-platform" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">完整的 AI 模型代码能力评估平台。Web 管理界面、多模型自动评测、排行榜实时更新、评测报告导出。直接对标「构造评估基建」。</p>
-                <div class="tech"><span>FastAPI</span><span>Jinja2</span><span>Web UI</span><span>OpenAI API</span></div>
-            </div>
-
-            
-
-            <!-- 第二梯队：完整应用项目 -->
-            <div class="project-card">
-                <div class="header">
-                    <h3>🌐 跨境电商自动筛货上架 Agent</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/ecommerce-agent" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">多 Agent 协作的跨境电商自动化系统。采集、筛选、内容生成、上架全流程自动化。</p>
-                <div class="tech"><span>FastAPI</span><span>多 Agent</span><span>LLM</span><span>Pydantic</span></div>
-            </div>
-
-            
-
-            <div class="project-card">
-                <div class="header">
-                    <h3>🎓 高考择校助手</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/gaokao-helper" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">AI 驱动的全栈 Web 应用。FastAPI 后端 + 大模型集成，提供大学搜索、校园生活分析、AI 智能问答。</p>
-                <div class="tech"><span>FastAPI</span><span>SQLite</span><span>大模型 API</span><span>HTML/CSS</span></div>
-            </div>
-
-            <!-- 第三梯队：实用工具 -->
-            
-
-            
-
-            
-
-            <div class="project-card">
-                <div class="header">
-                    <h3>🧪 Prompt Playground</h3>
-                    <div class="links"><a href="https://github.com/z15346183030/prompt-playground" target="_blank">GitHub</a></div>
-                </div>
-                <p class="desc">纯前端的 Prompt 测试工作台。支持多模型对比、历史记录回溯。</p>
-                <div class="tech"><span>HTML/CSS/JS</span><span>OpenAI API</span></div>
-            </div>
-
-            
+    <section id="experience" class="reveal">
+      <h2><span class="no">02.</span>经历</h2>
+      <div class="exp">
+        <div class="tabs" role="tablist" aria-label="经历">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="p-hisense" id="t-hisense">海信集团</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-nianben" id="t-nianben">念本酸奶</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-network" id="t-network">推广网络</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-fila" id="t-fila">FILA</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-innovation" id="t-innovation">大创</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-maker" id="t-maker">嘉年华</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="p-union" id="t-union">联合会</button>
         </div>
+
+        <div class="panes">
+          <div class="pane active" id="p-hisense" role="tabpanel" aria-labelledby="t-hisense">
+            <h3>国内营销 AI 实习生 <em>· 海信集团</em></h3>
+            <p class="date">2026.06 — 至今 · 青岛</p>
+            <ul>
+              <li><b>业务理解：</b>在大客户 BU、GTM、供应链三个部门轮岗，参与胶东机场、青岛地铁等大客户项目（总额超千万元）的交付过程，把一线业务痛点转化为 AI 场景需求。</li>
+              <li><b>AI 业务落地：</b>面向国内营销业务识别效率瓶颈，推动大客户销售 AI 工作平台、AI 物流自追踪、AI 排产规划等场景的智能化落地。</li>
+              <li><b>智能体开发：</b>依托集团自研智能体平台搭建业务智能体，通过接入自研插件实现完整功能闭环。</li>
+            </ul>
+            <ul class="tech">
+              <li>大客户销售</li><li>GTM</li><li>供应链</li><li>智能体搭建</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-nianben" role="tabpanel" aria-labelledby="t-nianben">
+            <h3>校园分销负责人 <em>· 念本纯酸奶</em></h3>
+            <p class="date">2025.05 — 2026.02</p>
+            <ul>
+              <li><b>目标与结果：</b>制定销售计划与预算并对结果负责，累计销售破万，单月销售额提升 40%。</li>
+              <li><b>渠道管理：</b>从 0 开拓并分级管理 5 个院系经销商与学生团队，覆盖 200+ 用户。</li>
+              <li><b>商务谈判：</b>与品牌方协商供货价、活动支持与账期，争取校园推广资源。</li>
+              <li><b>数据运营：</b>用 Excel + Python 监控销售、库存与复购数据并复盘，沉淀选品—进销存—活动全流程 SOP。</li>
+            </ul>
+            <ul class="tech">
+              <li>品牌操盘</li><li>渠道管理</li><li>商务谈判</li><li>数据运营</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-network" role="tabpanel" aria-labelledby="t-network">
+            <h3>创始人 <em>· 校园推广网络运营</em></h3>
+            <p class="date">2024.02 — 2025.03</p>
+            <ul>
+              <li><b>从 0 到 1：</b>搭建校园推广网络，对接唯品会「唯享客」、美团、网易 UU 加速器、抖音特效、游戏厂商等品牌官方渠道体系。</li>
+              <li><b>规模：</b>500+ 人学生推广社群，年微信流水 50 万+，净盈利 10 万+。</li>
+              <li><b>机制设计：</b>设计「公域种草 → 社群转化 → 官方后台结算 → 佣金分成」链路，以及学生优先的分佣激励体系。</li>
+              <li><b>持续复盘：</b>周度复盘各项目转化与投入产出，应对多平台政策调整，沉淀可复制的渠道推广方法论。</li>
+            </ul>
+            <ul class="tech">
+              <li>0 → 1</li><li>用户增长</li><li>分佣机制</li><li>ROI 复盘</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-fila" role="tabpanel" aria-labelledby="t-fila">
+            <h3>品牌校园推广大使 <em>· FILA</em></h3>
+            <p class="date">2026.02 — 至今</p>
+            <ul>
+              <li><b>渠道搭建：</b>作为品牌方与校园市场的连接者，搭建 5 院系推广网络，触达 2000+ 学生，策划执行校园主题活动。</li>
+              <li><b>用户洞察：</b>问卷调研 + 深度访谈收集 Z 世代消费洞察，形成用户画像与选品建议，反哺品牌投放策略。</li>
+            </ul>
+            <ul class="tech">
+              <li>渠道拓展</li><li>用户洞察</li><li>活动执行</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-innovation" role="tabpanel" aria-labelledby="t-innovation">
+            <h3>项目负责人 <em>· 省级大学生创新创业训练计划</em></h3>
+            <p class="date">2025.05 — 2026.05</p>
+            <ul>
+              <li>聚乳酸改性耐高温纤维开发，负责立项、资源争取、项目管理与商业化视角。</li>
+              <li>借这个项目完整走了一遍工业化链条：原料价格波动 → 改性工艺 → 测试标准 → 商业化成本。</li>
+            </ul>
+            <ul class="tech">
+              <li>项目管理</li><li>资源整合</li><li>商业化分析</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-maker" role="tabpanel" aria-labelledby="t-maker">
+            <h3>核心组织者 <em>· 创客嘉年华</em></h3>
+            <p class="date">2024.05</p>
+            <ul>
+              <li><b>赞助谈判：</b>与外部赞助商谈判争取资金、物料与人力支持，联动校团委、6 个学院学生会与媒体跨部门推进落地。</li>
+              <li><b>活动统筹：</b>统筹 10 余场百人规模活动，管理 50+ 志愿者团队，全渠道触达 5000+ 人次。</li>
+            </ul>
+            <ul class="tech">
+              <li>资源协调</li><li>活动策划</li><li>团队管理</li>
+            </ul>
+          </div>
+
+          <div class="pane" id="p-union" role="tabpanel" aria-labelledby="t-union">
+            <h3>创业服务部长 <em>· 校创新创业联合会</em></h3>
+            <p class="date">2024.05 — 2025.05</p>
+            <ul>
+              <li>对接 100+ 创业团队，整合校内外导师、场地与项目资源，推动合作落地。</li>
+            </ul>
+            <ul class="tech">
+              <li>资源整合</li><li>社群运营</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="experience">
-        <h2>实践经历</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <h3>FILA 校园推广大使</h3>
-                <div class="meta">2024.09 - 至今</div>
-                <ul>
-                    <li>通过问卷调研与访谈收集 Z 世代用户反馈，建立需求画像</li>
-                    <li>分析用户行为数据，提炼核心痛点，形成可落地的优化建议</li>
-                    <li>与品牌市场部、产品团队对接，推动洞察转化为行动</li>
-                </ul>
-            </div>
-            <div class="timeline-item">
-                <h3>念本纯酸奶 · 校园品牌代理</h3>
-                <div class="meta">2024.03 - 2025.03</div>
-                <ul>
-                    <li>从 0 到 1 搭建覆盖 5 个院系的销售网络，用户增长 200+</li>
-                    <li>运用 Excel 分析销售数据，优化 SKU 组合，单月销售额提升 40%</li>
-                    <li>设计场景化营销方案，通过朋友圈海报+短视频内容引流</li>
-                </ul>
-            </div>
-            <div class="timeline-item">
-                <h3>创客嘉年华 · 核心组织者</h3>
-                <div class="meta">2024.05</div>
-                <ul>
-                    <li>统筹 10 余场百人规模活动，建立标准化 SOP 与执行流程</li>
-                    <li>联动校团委、6 个学院学生会及外部赞助商，协调 50+ 人志愿者团队</li>
-                    <li>主导活动海报设计与视频制作，全渠道触达 5000+ 人次</li>
-                </ul>
-            </div>
-        </div>
+    <section id="projects" class="reveal">
+      <h2><span class="no">03.</span>项目</h2>
+      <div class="grid">
+        <a class="card" href="https://github.com/z15346183030/multi-agent-code-studio" target="_blank" rel="noopener">
+          <div class="top">
+            <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/></svg>
+            <span class="out"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </div>
+          <h3>Multi-Agent Code Studio</h3>
+          <p class="meta">2025.03 — 至今 · 产品负责人 / 独立开发</p>
+          <p>针对「AI 生成代码质量不稳定」，定义多 Agent 协作的产品形态，输出 PRD 与路线图并上线 MVP；建立 LLM-as-a-Judge 五维加权评估 + ICC 一致性检验 + 质量门控，形成「评测 → 归因 → 优化」闭环。</p>
+          <ul class="tech"><li>产品定义</li><li>评估体系</li><li>LLM-as-a-Judge</li></ul>
+        </a>
+
+        <a class="card" href="https://github.com/z15346183030/geo-optimizer" target="_blank" rel="noopener">
+          <div class="top">
+            <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/><path d="M11 7v8M7 11h8"/></svg>
+            <span class="out"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </div>
+          <h3>GEO Optimizer</h3>
+          <p class="meta">2026.06 — 至今 · 独立开发</p>
+          <p>设计 6 维度 GEO 评分模型，分析内容被 AI 搜索引擎引用的可能性并输出优化建议；配五维度加权评估 + ICC 校准，支撑评测与决策——AI 时代的营销新阵地。</p>
+          <ul class="tech"><li>AI 内容营销</li><li>评测体系</li></ul>
+        </a>
+
+        <a class="card" href="https://github.com/z15346183030/gaokao-helper" target="_blank" rel="noopener">
+          <div class="top">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M12 3L2.5 8 12 13l9.5-5L12 3z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/></svg>
+            <span class="out"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </div>
+          <h3>AI 智能问答助手（高考择校）</h3>
+          <p class="meta">2024.06 — 至今 · 产品负责人 / 独立开发</p>
+          <p>问卷调研（N=150+）+ 深度访谈挖需求，竞品分析定位差异；Python / FastAPI 全栈上线，服务 200+ 用户，搭建行为数据监控驱动迭代，获省级创新创业立项。</p>
+          <ul class="tech"><li>用户洞察</li><li>数据驱动</li><li>全栈上线</li></ul>
+        </a>
+
+        <a class="card" href="https://github.com/z15346183030/ecommerce-agent" target="_blank" rel="noopener">
+          <div class="top">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M3 6h18l-2 12H5L3 6z"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 6L2 3"/></svg>
+            <span class="out"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </div>
+          <h3>跨境电商自动筛货上架 Agent</h3>
+          <p class="meta">2025.02 — 2025.03 · 独立开发</p>
+          <p>分析选品—上架流程中的人工瓶颈，设计「采集 → 筛选 → 内容生成 → 上架」四步自动化工作流；系统化 Prompt 模板一键生成营销文案与商品素材，保证输出可控。</p>
+          <ul class="tech"><li>流程优化</li><li>Workflow 编排</li><li>AIGC</li></ul>
+        </a>
+      </div>
     </section>
 
-    <section id="honors">
-        <h2>荣誉奖项</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>🏆 竞赛获奖</h3>
-                <div class="items">
-                    <span>大学生商业挑战赛山东省三等奖</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🔬 科创项目</h3>
-                <div class="items">
-                    <span>大学生创新创业训练项目省级立项</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>📚 学业奖学金</h3>
-                <div class="items">
-                    <span>连续四学期校二等奖学金</span>
-                </div>
-            </div>
+    <section id="skills" class="reveal">
+      <h2><span class="no">04.</span>技能</h2>
+
+      <div class="skillgroup">
+        <h3>AI 应用与产品</h3>
+        <div class="chips">
+          <span>AI 业务场景识别</span><span>智能体（Agent）搭建</span><span>Prompt 工程</span><span>插件集成</span>
+          <span>AI 效果评估体系</span><span>LLM-as-a-Judge</span><span>Workflow 编排</span><span>A/B 测试</span>
+          <span>用户调研</span><span>竞品分析</span><span>PRD 撰写</span><span>MVP 验证</span>
         </div>
+      </div>
+
+      <div class="skillgroup">
+        <h3>商业与运营</h3>
+        <div class="chips">
+          <span>销售目标管理</span><span>品牌操盘竞争策略</span><span>渠道与供应商分级管理</span><span>商务谈判</span>
+          <span>活动营销与社群运营</span><span>用户增长</span><span>大客户销售流程</span><span>GTM 市场进入</span>
+        </div>
+      </div>
+
+      <div class="skillgroup">
+        <h3>数据与工具</h3>
+        <div class="chips">
+          <span>Excel（熟练）</span><span>SQL</span><span>Python</span><span>Tableau</span><span>Power BI</span>
+          <span>销售 / 库存 / 用户行为数据监控</span><span>vibe coding</span><span>Claude / ChatGPT / Cursor</span>
+        </div>
+      </div>
+
+      <div class="skillgroup">
+        <h3>语言</h3>
+        <div class="chips">
+          <span>CET-4 439</span>
+        </div>
+      </div>
     </section>
 
-    <section id="contact">
-        <h2>联系方式</h2>
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="icon">📱</div>
-                <div class="label">电话</div>
-                <div class="value">15346183030</div>
-            </div>
-            <div class="contact-card">
-                <div class="icon">📧</div>
-                <div class="label">邮箱</div>
-                <div class="value">2210914541@qq.com</div>
-            </div>
-            <div class="contact-card">
-                <div class="icon">🔗</div>
-                <div class="label">GitHub</div>
-                <div class="value"><a href="https://github.com/z15346183030" target="_blank">z15346183030 · 3★</a></div>
-            </div>
-            <div class="contact-card">
-                <div class="icon">📍</div>
-                <div class="label">所在地</div>
-                <div class="value">青岛</div>
-            </div>
-        </div>
+    <section id="contact" class="reveal">
+      <h2><span class="no">05.</span>联系</h2>
+      <p class="kicker">2027 届校招 · 2027.07 可到岗</p>
+      <p>我正在找营销管培、AI 产品、解决方案方向的校招机会。如果你想找一个懂业务的 AI 产品人，或者一个懂 AI 的生意人，欢迎聊聊。</p>
+      <div class="hero-actions">
+        <a class="btn" href="mailto:2210914541@qq.com">发邮件给我</a>
+        <a class="btn ghost" href="tel:15346183030">153 4618 3030</a>
+      </div>
     </section>
 
     <footer>
-        <p>© 2026 赵旭 · Built with ❤️ and AI</p>
+      <span>赵旭 · 青岛大学 2027 届</span>
+      <span>版式参考 Brittany Chiang 的 <a href="https://github.com/bchiang7/v4" target="_blank" rel="noopener">v4</a>（MIT）</span>
     </footer>
+  </main>
+</div>
 
-    <!-- Project Detail Modal -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <h2 id="modalTitle"></h2>
-            <div class="modal-links" id="modalLinks"></div>
-            <p class="modal-desc" id="modalDesc"></p>
-            <div id="modalSections"></div>
-            <div class="modal-tech" id="modalTech"></div>
-        </div>
-    </div>
+<script>
+(function(){
+  // 顶部进度条
+  var bar = document.getElementById('bar');
+  function onScroll(){
+    var h = document.documentElement;
+    var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+    bar.style.width = (p * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
 
-    <script>
-        const projects = {
-            'multi-agent-code-studio': {
-                title: '🎭 Multi-Agent Code Studio',
-                github: 'https://github.com/z15346183030/multi-agent-code-studio',
-                desc: '多 Agent 协作代码生成系统，模拟真实软件团队的协作模式。通过 Writer、Reviewer、Tester、Refiner 四个专业 Agent 的分工协作，实现高质量代码的自动生成和迭代优化。',
-                sections: [
-                    { title: '核心架构', items: [
-                        'Writer Agent: 根据需求生成初始代码，专注于实现功能',
-                        'Reviewer Agent: 从安全、性能、风格、可维护性多维度审查代码',
-                        'Tester Agent: 自动生成测试用例并执行，验证代码正确性',
-                        'Refiner Agent: 综合审查反馈和测试结果，有针对性地优化代码'
-                    ]},
-                    { title: '工程亮点', items: [
-                        '反馈循环: Reviewer 和 Tester 的反馈驱动 Refiner 迭代优化',
-                        '质量门控: 测试通过率低于阈值时自动触发下一轮优化',
-                        '可配置: 支持自定义 Agent 数量、迭代次数、质量阈值',
-                        '全程可观测: 每一步的输入输出都有 Rich 格式化日志'
-                    ]},
-                    { title: '技术栈', items: ['Python', 'OpenAI API', 'Rich (终端美化)', 'dataclasses'] }
-                ],
-                tech: ['Python', '多 Agent 架构', 'OpenAI API', 'Rich', '反馈循环']
-            },
-            'llm-as-judge': {
-                title: '⚖️ LLM-as-a-Judge',
-                github: 'https://github.com/z15346183030/llm-as-judge',
-                desc: '用 LLM 当评委，自动评估 AI 生成代码的质量。解决了传统代码评估（运行测试用例）只能验证"对不对"、无法评估"好不好"的问题。',
-                sections: [
-                    { title: '评估维度 (加权)', items: [
-                        '正确性 (30%): 逻辑是否正确，是否满足需求',
-                        '可读性 (20%): 命名、结构、注释是否清晰',
-                        '效率 (20%): 时间/空间复杂度是否合理',
-                        '健壮性 (15%): 异常处理、边界情况',
-                        '代码风格 (15%): 是否遵循最佳实践'
-                    ]},
-                    { title: '核心机制', items: [
-                        '多评委机制: 多个 LLM 独立打分，取加权平均，减少单模型偏见',
-                        '一致性检验: 计算组内相关系数 (ICC)，低一致性时发出警告',
-                        '评分校准: 用参考答案校准评委的评分标准，提高评估准确性',
-                        '评估报告: 生成含统计分析的详细报告'
-                    ]},
-                    { title: '技术栈', items: ['Python', 'NumPy (统计计算)', 'OpenAI API', 'Rich'] }
-                ],
-                tech: ['Python', 'NumPy', '统计分析', 'OpenAI API', 'ICC 一致性检验']
-            },
-            'code-eval-platform': {
-                title: '📊 Code Eval Platform',
-                github: 'https://github.com/z15346183030/code-eval-platform',
-                desc: '完整的 AI 模型代码能力评估平台，提供 Web 管理界面。直接对标 Kimi JD 中的「构造评估模型代码能力的基础设施」。',
-                sections: [
-                    { title: '功能模块', items: [
-                        'Web 管理界面: 可视化管理题目、模型、评测任务',
-                        '多模型对比: 同时测试多个 AI 模型的编程能力',
-                        '自动评分: 代码正确性 + 代码质量双维度评估',
-                        '排行榜: 实时更新的模型能力排名',
-                        '评测报告: 导出 Markdown 格式的详细报告'
-                    ]},
-                    { title: '技术栈', items: ['FastAPI', 'Jinja2 模板', 'OpenAI API', 'HTML/CSS/JS', 'SQLite'] }
-                ],
-                tech: ['FastAPI', 'Jinja2', 'Web UI', 'OpenAI API', '排行榜']
-            },
-            'ecommerce-agent': {
-                title: '🌐 跨境电商自动筛货上架 Agent',
-                github: 'https://github.com/z15346183030/ecommerce-agent',
-                desc: '多 Agent 协作的跨境电商自动化系统，从选品到上架全流程自动化。',
-                sections: [
-                    { title: 'Agent 流水线', items: [
-                        '采集 Agent: 从模拟数据源获取商品信息',
-                        '筛选 Agent: 6 维度打分筛选优质商品',
-                        '内容 Agent: AI 生成标题、卖点、详情页',
-                        '上架 Agent: 模拟上架流程，输出结果'
-                    ]},
-                    { title: '技术栈', items: ['FastAPI', '多 Agent', 'LLM', 'Pydantic', 'TailwindCSS'] }
-                ],
-                tech: ['FastAPI', '多 Agent', 'LLM', 'Pydantic', 'TailwindCSS']
-            },
-            'gaokao-helper': {
-                title: '🎓 高考择校助手',
-                github: 'https://github.com/z15346183030/gaokao-helper',
-                desc: 'AI 驱动的全栈 Web 应用，帮助高考毕业生了解大学的真实校园生活。',
-                sections: [
-                    { title: '功能模块', items: [
-                        '大学搜索: 按省份、类型筛选大学',
-                        '校园生活分析: AI 生成的宿舍、食堂、交通等信息',
-                        'AI 智能问答: 对接大模型，回答择校问题',
-                        '收藏管理: 个人收藏夹功能'
-                    ]},
-                    { title: '技术栈', items: ['FastAPI', 'SQLite', '大模型 API', 'HTML/CSS/JS'] }
-                ],
-                tech: ['FastAPI', 'SQLite', '大模型 API', 'HTML/CSS']
-            },
-            'prompt-playground': {
-                title: '🧪 Prompt Playground',
-                github: 'https://github.com/z15346183030/prompt-playground',
-                desc: '轻量级的 AI Prompt 测试工作台。纯前端实现，无需后端。',
-                sections: [
-                    { title: '功能特性', items: [
-                        '纯前端: 无需后端服务，直接调用 OpenAI 兼容 API',
-                        '实时测试: 输入 Prompt 即时获取 AI 响应',
-                        '配置灵活: 支持自定义 API URL、模型、Temperature',
-                        '历史记录: 自动保存测试历史，方便回溯对比'
-                    ]}
-                ],
-                tech: ['HTML/CSS/JS', 'OpenAI API', '暗色主题']
-            },
-            };
+  // 滚动揭示
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'});
+    items.forEach(function(el){ io.observe(el); });
+  } else {
+    items.forEach(function(el){ el.classList.add('in'); });
+  }
+  // 首屏立即显示
+  requestAnimationFrame(function(){
+    var hero = document.getElementById('hero');
+    if (hero) hero.classList.add('in');
+  });
 
-        // 给每个项目卡片添加点击事件
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') return; // 不拦截链接点击
+  // 经历 tabs
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panes = Array.prototype.slice.call(document.querySelectorAll('.pane'));
+  function activate(tab){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t === tab)); });
+    panes.forEach(function(p){ p.classList.toggle('active', p.id === tab.getAttribute('aria-controls')); });
+  }
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){ activate(tab); });
+  });
+  // 键盘左右切换
+  document.querySelector('.tabs').addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    var i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    var next = tabs[(i + (e.key === 'ArrowDown' ? 1 : tabs.length - 1)) % tabs.length];
+    next.focus(); activate(next);
+  });
 
-                // 从 GitHub 链接中提取项目 key
-                const link = card.querySelector('a[href*="github.com"]');
-                if (!link) return;
-                const href = link.getAttribute('href');
-                const key = href.split('/').pop();
-
-                if (projects[key]) {
-                    openModal(projects[key]);
-                }
-            });
-        });
-
-        function openModal(project) {
-            document.getElementById('modalTitle').textContent = project.title;
-            document.getElementById('modalDesc').textContent = project.desc;
-
-            // 链接
-            document.getElementById('modalLinks').innerHTML =
-                `<a href="${project.github}" target="_blank">GitHub →</a>`;
-
-            // 详情段落
-            let sectionsHtml = '';
-            if (project.sections) {
-                project.sections.forEach(s => {
-                    sectionsHtml += `<h3>${s.title}</h3><ul>`;
-                    s.items.forEach(item => {
-                        sectionsHtml += `<li>${item}</li>`;
-                    });
-                    sectionsHtml += '</ul>';
-                });
-            }
-            document.getElementById('modalSections').innerHTML = sectionsHtml;
-
-            // 技术标签
-            document.getElementById('modalTech').innerHTML =
-                project.tech.map(t => `<span>${t}</span>`).join('');
-
-            document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // 点击遮罩关闭
-        document.getElementById('modalOverlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeModal();
-        });
-
-        // ESC 关闭
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-    </script>
+  // 移动端抽屉
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  function closeDrawer(){
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(){
+    var open = drawer.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+})();
+</script>
 </body>
 </html>
