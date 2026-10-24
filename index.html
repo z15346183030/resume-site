@@ -132,13 +132,13 @@ section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);m
 .mailmenu a:hover,.mailmenu a:focus-visible{background:var(--green-dim);color:var(--green);outline:none}
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55;flex-shrink:0}
 .copy-mail{
-  width:100%;margin-top:5px;padding:9px 12px;
-  background:none;border:0;border-top:1px solid var(--lightest-navy);cursor:pointer;
-  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--yellow);
-  text-align:left;border-radius:5px;
-  transition:color .18s var(--ease),background .18s var(--ease);
+  width:100%;margin-top:8px;padding:10px 12px;
+  background:var(--yellow);border:0;border-radius:5px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;
+  color:var(--navy);text-align:center;
+  transition:filter .18s var(--ease);
 }
-.copy-mail:hover{color:var(--navy);background:var(--yellow)}
+.copy-mail:hover{filter:brightness(1.1)}
 .mailmenu a.primary{color:var(--green)}
 .mailmenu a.primary .dot{background:var(--green);opacity:1}
 .tag{
@@ -653,7 +653,7 @@ footer a:hover{color:var(--green)}
     </section>
 
     <footer>
-      <span>赵旭 · 青岛大学 2027 届 · v2.3</span>
+      <span>赵旭 · 青岛大学 2027 届 · v2.4</span>
       <span>版式参考 Brittany Chiang 的 <a href="https://github.com/bchiang7/v4" target="_blank" rel="noopener">v4</a>（MIT）</span>
     </footer>
   </main>
