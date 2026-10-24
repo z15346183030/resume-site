@@ -98,6 +98,45 @@ section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);m
 .btn:hover{background:var(--green-dim);transform:translateY(-2px)}
 .btn.ghost{color:var(--light-slate);border-color:var(--lightest-navy)}
 .btn.ghost:hover{color:var(--green);border-color:var(--green);background:var(--green-dim)}
+.btn .caret{width:12px;height:12px;transition:transform .25s var(--ease)}
+.btn[aria-expanded="true"] .caret{transform:rotate(180deg)}
+
+/* ---------- mail menu ---------- */
+.mailwrap{position:relative;display:inline-block}
+.mailmenu{
+  position:absolute;bottom:calc(100% + 12px);left:50%;
+  transform:translateX(-50%) translateY(8px);
+  min-width:216px;padding:7px;
+  background:var(--light-navy);border:1px solid var(--lightest-navy);border-radius:8px;
+  box-shadow:var(--shadow);z-index:60;text-align:left;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s var(--ease),transform .22s var(--ease),visibility .22s;
+}
+.mailmenu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.mailmenu::after{
+  content:"";position:absolute;top:100%;left:50%;margin-left:-6px;
+  border:6px solid transparent;border-top-color:var(--lightest-navy);
+}
+.menu-label{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  color:var(--slate);padding:6px 12px 8px;border-bottom:1px solid var(--lightest-navy);
+  margin-bottom:5px;
+}
+.mailmenu a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:5px;
+  font-size:13.5px;color:var(--light-slate);
+  transition:background .18s var(--ease),color .18s var(--ease);
+}
+.mailmenu a:hover,.mailmenu a:focus-visible{background:var(--green-dim);color:var(--green);outline:none}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55;flex-shrink:0}
+.copy-mail{
+  width:100%;margin-top:5px;padding:9px 12px;
+  background:none;border:0;border-top:1px solid var(--lightest-navy);cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--slate);
+  text-align:left;transition:color .18s var(--ease);
+}
+.copy-mail:hover{color:var(--green)}
 
 /* ---------- about ---------- */
 .about p{margin:0 0 16px;max-width:620px}
@@ -559,7 +598,34 @@ footer a:hover{color:var(--green)}
       <p class="kicker">2027 届校招 · 2027.07 可到岗</p>
       <p>我正在找营销管培、AI 产品、解决方案方向的校招机会。如果你想找一个懂业务的 AI 产品人，或者一个懂 AI 的生意人，欢迎聊聊。</p>
       <div class="hero-actions">
-        <a class="btn" href="mailto:2210914541@qq.com">发邮件给我</a>
+        <div class="mailwrap">
+          <button class="btn" id="mailBtn" aria-haspopup="true" aria-expanded="false" aria-controls="mailMenu">
+            发邮件给我
+            <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mailmenu" id="mailMenu" role="menu" aria-labelledby="mailBtn">
+            <span class="menu-label">用哪个邮箱发给我</span>
+            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2210914541@qq.com">
+              <span class="dot"></span>QQ 邮箱
+            </a>
+            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.163.com/js6/main.jsp?df=mail163_letter#module=compose.ComposeModule%7C%7C%7C%7B%22id%22%3A%22new%22%2C%22action%22%3A%22new%22%2C%22to%22%3A%222210914541%40qq.com%22%7D">
+              <span class="dot"></span>网易 163 邮箱
+            </a>
+            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.126.com/js6/main.jsp?df=mail163_letter#module=compose.ComposeModule%7C%7C%7C%7B%22id%22%3A%22new%22%2C%22action%22%3A%22new%22%2C%22to%22%3A%222210914541%40qq.com%22%7D">
+              <span class="dot"></span>网易 126 邮箱
+            </a>
+            <a role="menuitem" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=2210914541@qq.com">
+              <span class="dot"></span>Gmail
+            </a>
+            <a role="menuitem" target="_blank" rel="noopener" href="https://outlook.live.com/mail/0/deeplink/compose?to=2210914541@qq.com">
+              <span class="dot"></span>Outlook
+            </a>
+            <a role="menuitem" href="mailto:2210914541@qq.com">
+              <span class="dot"></span>系统默认邮箱
+            </a>
+            <button type="button" class="copy-mail" id="copyMail" data-mail="2210914541@qq.com">复制邮箱地址</button>
+          </div>
+        </div>
         <a class="btn ghost" href="tel:15346183030">153 4618 3030</a>
       </div>
     </section>
@@ -637,6 +703,41 @@ footer a:hover{color:var(--green)}
     document.body.style.overflow = open ? 'hidden' : '';
   });
   drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+
+  // 发邮件菜单
+  var mailBtn = document.getElementById('mailBtn');
+  var mailMenu = document.getElementById('mailMenu');
+  var copyBtn = document.getElementById('copyMail');
+  function setMail(open){
+    mailMenu.classList.toggle('open', open);
+    mailBtn.setAttribute('aria-expanded', String(open));
+  }
+  mailBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    setMail(!mailMenu.classList.contains('open'));
+  });
+  document.addEventListener('click', function(e){
+    if (!mailMenu.classList.contains('open')) return;
+    if (!mailMenu.contains(e.target) && e.target !== mailBtn) setMail(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && mailMenu.classList.contains('open')) { setMail(false); mailBtn.focus(); }
+  });
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function(){
+      var text = copyBtn.getAttribute('data-mail');
+      var done = function(){ copyBtn.textContent = '已复制 ' + text; };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function(){});
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch(err) {}
+        document.body.removeChild(ta);
+      }
+    });
+  }
 })();
 </script>
 </body>
