@@ -222,6 +222,26 @@ section h2::after{content:"";flex:1;height:1px;background:var(--lightest-navy);m
 .card p{margin:0;font-size:14px;flex:1;color:var(--slate)}
 .card .tech{margin-top:18px}
 
+/* ---------- open source ---------- */
+.os-note{font-size:14px;color:var(--slate);margin:0 0 24px;max-width:660px;line-height:1.8}
+.os-note b{color:var(--light-slate);font-weight:600}
+.osgroups{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.osgroup{background:var(--light-navy);border-radius:6px;padding:20px 22px}
+.osgroup h3{
+  font-size:13px;color:var(--lightest-slate);margin:0 0 14px;font-weight:600;
+  display:flex;align-items:center;gap:9px;letter-spacing:.02em;
+}
+.osgroup h3 em{
+  font-family:var(--mono);font-style:normal;font-size:9.5px;color:var(--green);
+  border:1px solid var(--lightest-navy);border-radius:3px;padding:1px 5px;line-height:1.4;
+}
+.osgroup h3 i{flex:1;height:1px;background:var(--lightest-navy);font-style:normal}
+.oslinks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.oslinks li{display:flex;flex-direction:column;gap:1px}
+.oslinks a{font-family:var(--mono);font-size:12.5px;color:var(--light-slate);transition:color .2s var(--ease);width:max-content}
+.oslinks a:hover{color:var(--green)}
+.oslinks li span{font-size:12.5px;color:var(--slate);line-height:1.6}
+
 /* ---------- skills ---------- */
 .skillgroup{margin-bottom:30px}
 .skillgroup h3{
@@ -292,6 +312,7 @@ footer a:hover{color:var(--green)}
   .tab[aria-selected="true"]{border-bottom-color:var(--green);border-left:0;background:none}
   .panes{padding-left:0}
   .grid{grid-template-columns:1fr}
+  .osgroups{grid-template-columns:1fr}
   .card{min-height:0}
 }
 @media(max-width:520px){
@@ -319,6 +340,10 @@ footer a:hover{color:var(--green)}
   section h2 .no{color:#666}
   .card{background:#f7f7f7;border:1px solid #e5e5e5;box-shadow:none;min-height:0;page-break-inside:avoid}
   .card h3{color:#111}.card p{color:#333}
+  .osgroup{background:#f7f7f7;border:1px solid #e5e5e5;page-break-inside:avoid}
+  .osgroup h3{color:#111}.osgroup h3 em{color:#666;border-color:#ccc}
+  .osgroup h3 i{background:#ddd}
+  .oslinks a{color:#111}.oslinks li span{color:#444}
   .edu{background:#f7f7f7;border-left:2px solid #999}
   .chips span{border-color:#ccc;color:#333}
   .tech li{background:#eee;color:#333}
@@ -341,8 +366,9 @@ footer a:hover{color:var(--green)}
   <a href="#about"><span class="no">01.</span>关于</a>
   <a href="#experience"><span class="no">02.</span>经历</a>
   <a href="#projects"><span class="no">03.</span>项目</a>
-  <a href="#skills"><span class="no">04.</span>技能</a>
-  <a href="#contact"><span class="no">05.</span>联系</a>
+  <a href="#opensource"><span class="no">04.</span>开源</a>
+  <a href="#skills"><span class="no">05.</span>技能</a>
+  <a href="#contact"><span class="no">06.</span>联系</a>
 </nav>
 
 <div class="layout">
@@ -356,8 +382,9 @@ footer a:hover{color:var(--green)}
         <li><a href="#about"><span class="line"></span><span class="no">01.</span>关于</a></li>
         <li><a href="#experience"><span class="line"></span><span class="no">02.</span>经历</a></li>
         <li><a href="#projects"><span class="line"></span><span class="no">03.</span>项目</a></li>
-        <li><a href="#skills"><span class="line"></span><span class="no">04.</span>技能</a></li>
-        <li><a href="#contact"><span class="line"></span><span class="no">05.</span>联系</a></li>
+        <li><a href="#opensource"><span class="line"></span><span class="no">04.</span>开源</a></li>
+        <li><a href="#skills"><span class="line"></span><span class="no">05.</span>技能</a></li>
+        <li><a href="#contact"><span class="line"></span><span class="no">06.</span>联系</a></li>
       </ul>
 
       <div class="sidebar-foot">
@@ -577,8 +604,66 @@ footer a:hover{color:var(--green)}
       </div>
     </section>
 
+    <section id="opensource" class="reveal">
+      <h2><span class="no">04.</span>开源工具</h2>
+      <p class="os-note"><b>15 个零依赖单文件工具，约 21,700 行 Python</b>（1.35 万行工具代码 + 0.81 万行测试），只用标准库，复制走就能跑。它们都从同一个约束里长出来：目标机器装不了任何包——内网、锁死的 CI、只读镜像。所以工具只能是一个文件。</p>
+
+      <div class="osgroups">
+        <div class="osgroup">
+          <h3>读懂代码 <em>04</em><i></i></h3>
+          <ul class="oslinks">
+            <li><a href="https://github.com/z15346183030/depmap" target="_blank" rel="noopener">depmap ↗</a><span>模块依赖图，标出循环依赖与死代码</span></li>
+            <li><a href="https://github.com/z15346183030/astdiff" target="_blank" rel="noopener">astdiff ↗</a><span>按语法树比对，缩进变化不再算噪音</span></li>
+            <li><a href="https://github.com/z15346183030/shapefind" target="_blank" rel="noopener">shapefind ↗</a><span>按代码形状搜索，注释与字符串不误命中</span></li>
+            <li><a href="https://github.com/z15346183030/copyfind" target="_blank" rel="noopener">copyfind ↗</a><span>重复代码按克隆类分组，12 处只报 1 条</span></li>
+          </ul>
+        </div>
+
+        <div class="osgroup">
+          <h3>文档与发布 <em>03</em><i></i></h3>
+          <ul class="oslinks">
+            <li><a href="https://github.com/z15346183030/doc2md" target="_blank" rel="noopener">doc2md ↗</a><span>只读 OOXML 转 Markdown，不装包不联网</span></li>
+            <li><a href="https://github.com/z15346183030/mddeck" target="_blank" rel="noopener">mddeck ↗</a><span>Markdown 转幻灯片，不启浏览器</span></li>
+            <li><a href="https://github.com/z15346183030/commitlog" target="_blank" rel="noopener">commitlog ↗</a><span>git 历史转 CHANGELOG，顺带算版本号</span></li>
+          </ul>
+        </div>
+
+        <div class="osgroup">
+          <h3>数据与配置 <em>03</em><i></i></h3>
+          <ul class="oslinks">
+            <li><a href="https://github.com/z15346183030/csvsift" target="_blank" rel="noopener">csvsift ↗</a><span>一个命令完成选筛排截分组，值永远原样</span></li>
+            <li><a href="https://github.com/z15346183030/yamlsplice" target="_blank" rel="noopener">yamlsplice ↗</a><span>按路径改 YAML，只动那几个字节</span></li>
+            <li><a href="https://github.com/z15346183030/squeeze" target="_blank" rel="noopener">squeeze ↗</a><span>上下文压缩 CLI，省 60–87% token</span></li>
+          </ul>
+        </div>
+
+        <div class="osgroup">
+          <h3>上线前的闸门 <em>05</em><i></i></h3>
+          <ul class="oslinks">
+            <li><a href="https://github.com/z15346183030/leakcheck" target="_blank" rel="noopener">leakcheck ↗</a><span>找硬编码密钥，每条给证据链和置信分</span></li>
+            <li><a href="https://github.com/z15346183030/linkcheck" target="_blank" rel="noopener">linkcheck ↗</a><span>只报真坏的死链，代码块内链接不计</span></li>
+            <li><a href="https://github.com/z15346183030/spellcode" target="_blank" rel="noopener">spellcode ↗</a><span>源码拼写检查，只报有把握的错拼</span></li>
+            <li><a href="https://github.com/z15346183030/pngslim" target="_blank" rel="noopener">pngslim ↗</a><span>无损 PNG 瘦身，像素与元数据一字不动</span></li>
+            <li><a href="https://github.com/z15346183030/benchloop" target="_blank" rel="noopener">benchloop ↗</a><span>配对数据算加速比与 95% 置信区间</span></li>
+          </ul>
+        </div>
+
+        <div class="osgroup">
+          <h3>AI 与长期项目 <em>06</em><i></i></h3>
+          <ul class="oslinks">
+            <li><a href="https://github.com/z15346183030/llm-as-judge" target="_blank" rel="noopener">llm-as-judge ↗</a><span>多评委评分 + ICC 一致性检验</span></li>
+            <li><a href="https://github.com/z15346183030/prompt-playground" target="_blank" rel="noopener">prompt-playground ↗</a><span>纯前端 Prompt 测试台，改完立刻看差异</span></li>
+            <li><a href="https://github.com/z15346183030/daily-forge" target="_blank" rel="noopener">daily-forge ↗</a><span>每天拆解一个千星项目，保持手速</span></li>
+            <li><a href="https://github.com/z15346183030/reverse-engineer-for-everything" target="_blank" rel="noopener">逆向一切 ↗</a><span>软件逆向工具箱，每一步都留证据链</span></li>
+            <li><a href="https://github.com/z15346183030/reverse-lab" target="_blank" rel="noopener">reverse-lab ↗</a><span>架构研报 + 源码解析 + 最小复刻</span></li>
+            <li><a href="https://github.com/z15346183030/awesome-agentic-commerce" target="_blank" rel="noopener">awesome-agentic-commerce ↗</a><span>Agentic commerce 协议资源集</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section id="skills" class="reveal">
-      <h2><span class="no">04.</span>技能</h2>
+      <h2><span class="no">05.</span>技能</h2>
 
       <div class="skillgroup">
         <h3>AI 应用与产品</h3>
@@ -614,7 +699,7 @@ footer a:hover{color:var(--green)}
     </section>
 
     <section id="contact" class="reveal">
-      <h2><span class="no">05.</span>联系</h2>
+      <h2><span class="no">06.</span>联系</h2>
       <p class="kicker">2027 届校招 · 2027.07 可到岗</p>
       <p>我正在找营销管培、AI 产品、解决方案方向的校招机会。如果你想找一个懂业务的 AI 产品人，或者一个懂 AI 的生意人，欢迎聊聊。</p>
       <div class="hero-actions">
